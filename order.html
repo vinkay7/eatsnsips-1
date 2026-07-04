@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eats N Sips - Order Now</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { poppins: ['Poppins', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#fef7ee', 100: '#fdedd3', 200: '#f9d7a5', 300: '#f5b96d', 400: '#f09333', 500: '#ed7a0e', 600: '#de6009', 700: '#b8480a', 800: '#933a10', 900: '#7a3110' },
+                        forest: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d', 800: '#166534', 900: '#14532d' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { font-family: 'Poppins', sans-serif; }
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.4s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .progress-step.completed .step-circle { background: #ed7a0e; border-color: #ed7a0e; color: white; }
+        .progress-step.active .step-circle { border-color: #ed7a0e; color: #ed7a0e; box-shadow: 0 0 0 4px rgba(237, 122, 14, 0.15); }
+        .progress-step .step-circle { transition: all 0.3s ease; }
+        .progress-line.completed { background: #ed7a0e; }
+        select, input, textarea { transition: border-color 0.2s ease, box-shadow 0.2s ease; }
+        select:focus, input:focus, textarea:focus { border-color: #ed7a0e; box-shadow: 0 0 0 3px rgba(237, 122, 14, 0.1); }
+        .btn-primary { background: linear-gradient(135deg, #ed7a0e 0%, #de6009 100%); transition: all 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(237, 122, 14, 0.35); }
+        .btn-primary:active { transform: translateY(0); }
+        .toast { animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-brand-50 via-white to-forest-50 min-h-screen font-poppins">
+    <!-- Header -->
+    <header class="bg-white/80 backdrop-blur-md shadow-sm sticky top-0 z-50">
+        <div class="max-w-lg mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <img src="assets/logo.jpeg" alt="Eats N Sips Logo" class="w-10 h-10 object-cover rounded-xl shadow-md">
+                <div>
+                    <h1 class="text-lg font-bold text-gray-800 leading-tight">Eats N Sips</h1>
+                    <p class="text-[10px] text-brand-600 font-medium uppercase tracking-wider">Africa</p>
+                </div>
+            </div>
+            <span class="text-xs bg-forest-100 text-forest-700 px-2 py-1 rounded-full font-medium">🟢 Open</span>
+        </div>
+    </header>
+
+    <main class="max-w-lg mx-auto px-4 py-6 pb-24">
+        <!-- Progress Bar -->
+        <div class="mb-8">
+            <div class="flex items-center justify-between relative">
+                <div class="absolute top-4 left-0 right-0 h-0.5 bg-gray-200 -z-0"></div>
+                <div id="progress-line" class="absolute top-4 left-0 h-0.5 bg-brand-500 -z-0 transition-all duration-500" style="width: 0%"></div>
+                <div class="progress-step active flex flex-col items-center z-10" data-step="1">
+                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-xs font-bold">1</div>
+                    <span class="text-[10px] mt-1 font-medium text-gray-500">Info</span>
+                </div>
+                <div class="progress-step flex flex-col items-center z-10" data-step="2">
+                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-xs font-bold">2</div>
+                    <span class="text-[10px] mt-1 font-medium text-gray-500">Order</span>
+                </div>
+                <div class="progress-step flex flex-col items-center z-10" data-step="3">
+                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-xs font-bold">3</div>
+                    <span class="text-[10px] mt-1 font-medium text-gray-500">Delivery</span>
+                </div>
+                <div class="progress-step flex flex-col items-center z-10" data-step="4">
+                    <div class="step-circle w-8 h-8 rounded-full border-2 border-gray-300 bg-white flex items-center justify-center text-xs font-bold">4</div>
+                    <span class="text-[10px] mt-1 font-medium text-gray-500">Review</span>
+                </div>
+            </div>
+        </div>
+
+        <form id="orderForm" novalidate>
+            <!-- Step 1: Customer Info -->
+            <div class="step active" id="step1">
+                <div class="bg-white rounded-2xl shadow-lg shadow-gray-100/50 p-6 border border-gray-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-brand-100 rounded-xl flex items-center justify-center"><span class="text-xl">👤</span></div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800">Your Details</h2>
+                            <p class="text-xs text-gray-500">Tell us how to reach you</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-400">*</span></label>
+                            <input type="text" id="name" name="name" required placeholder="e.g. Adaeze Okonkwo" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Phone Number <span class="text-red-400">*</span></label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+234 800 000 0000" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" placeholder="Same as phone if blank" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Email Address <span class="text-red-400">*</span></label>
+                            <input type="email" id="email" name="email" required placeholder="you@email.com" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2: Order Details -->
+            <div class="step" id="step2">
+                <div class="bg-white rounded-2xl shadow-lg shadow-gray-100/50 p-6 border border-gray-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-forest-100 rounded-xl flex items-center justify-center"><span class="text-xl">🍛</span></div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800">Your Order</h2>
+                            <p class="text-xs text-gray-500">What are you craving?</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Order Type <span class="text-red-400">*</span></label>
+                            <select id="orderType" name="orderType" required class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white appearance-none">
+                                <option value="">Select order type</option>
+                                <option value="Regular">Regular Menu</option>
+                                <option value="Special">Special Order</option>
+                                <option value="Bulk">Bulk Order</option>
+                                <option value="Event">Event / Catering</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Category <span class="text-red-400">*</span></label>
+                            <select id="category" name="category" required class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white appearance-none">
+                                <option value="">Select category</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Item <span class="text-red-400">*</span></label>
+                            <select id="item" name="item" required class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white appearance-none">
+                                <option value="">Select an item</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Quantity <span class="text-red-400">*</span></label>
+                            <div class="flex items-center gap-3">
+                                <button type="button" onclick="adjustQty(-1)" class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-600 transition">−</button>
+                                <input type="number" id="quantity" name="quantity" value="1" min="1" max="100" required class="w-20 text-center px-3 py-2 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white">
+                                <button type="button" onclick="adjustQty(1)" class="w-10 h-10 rounded-xl bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-lg font-bold text-gray-600 transition">+</button>
+                            </div>
+                        </div>
+                        <!-- Special Order Details (conditional) -->
+                        <div id="specialDetails" class="hidden space-y-4 p-4 bg-amber-50 rounded-xl border border-amber-200">
+                            <p class="text-xs font-medium text-amber-700 flex items-center gap-1">✨ Special Order Details</p>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Describe your request</label>
+                                <textarea id="specialDescription" name="specialDescription" rows="3" placeholder="Tell us exactly what you'd like..." class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none resize-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Preferred date/time</label>
+                                <input type="datetime-local" id="specialDate" name="specialDate" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white text-sm focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 3: Delivery -->
+            <div class="step" id="step3">
+                <div class="bg-white rounded-2xl shadow-lg shadow-gray-100/50 p-6 border border-gray-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center"><span class="text-xl">🚗</span></div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800">Delivery</h2>
+                            <p class="text-xs text-gray-500">How should we get it to you?</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Option <span class="text-red-400">*</span></label>
+                            <select id="deliveryOption" name="deliveryOption" required class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white appearance-none">
+                                <option value="">Select delivery option</option>
+                                <option value="Pickup">Pickup (Free)</option>
+                                <option value="Delivery">Home / Office Delivery</option>
+                            </select>
+                        </div>
+                        <div id="deliveryFields" class="hidden space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Delivery Address <span class="text-red-400">*</span></label>
+                                <textarea id="deliveryAddress" name="deliveryAddress" rows="2" placeholder="Full address including landmarks..." class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white resize-none"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-1">Preferred Delivery Time</label>
+                                <input type="text" id="deliveryTime" name="deliveryTime" placeholder="e.g. Before 2pm, ASAP" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white">
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Additional Notes</label>
+                            <textarea id="notes" name="notes" rows="3" placeholder="Allergies, preferences, extra instructions..." class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-gray-50/50 text-sm focus:outline-none focus:bg-white resize-none"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4: Review -->
+            <div class="step" id="step4">
+                <div class="bg-white rounded-2xl shadow-lg shadow-gray-100/50 p-6 border border-gray-100">
+                    <div class="flex items-center gap-3 mb-5">
+                        <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center"><span class="text-xl">📋</span></div>
+                        <div>
+                            <h2 class="text-lg font-bold text-gray-800">Review Order</h2>
+                            <p class="text-xs text-gray-500">Make sure everything looks good</p>
+                        </div>
+                    </div>
+                    <div id="reviewContent" class="space-y-3"></div>
+                </div>
+            </div>
+        </form>
+
+        <!-- Navigation Buttons -->
+        <div class="mt-6 flex gap-3">
+            <button id="prevBtn" onclick="navigate(-1)" class="hidden flex-1 py-3.5 rounded-xl border-2 border-gray-200 text-gray-600 font-semibold text-sm hover:bg-gray-50 transition">← Back</button>
+            <button id="nextBtn" onclick="navigate(1)" class="flex-1 py-3.5 rounded-xl btn-primary text-white font-semibold text-sm shadow-lg">Continue →</button>
+        </div>
+    </main>
+
+    <!-- Toast -->
+    <div id="toast" class="hidden fixed bottom-6 left-4 right-4 max-w-lg mx-auto z-50"></div>
+
+    <script>
+    // Menu Data
+    const menuData = {
+        "Rice-Based Dishes": [
+            "Jollof Rice", "Fried Rice", "Coconut Rice", "Ofada Rice & Sauce",
+            "Rice & Stew", "Rice & Beans", "Native Jollof", "Basmati Jollof"
+        ],
+        "Swallow & Soups": [
+            "Pounded Yam & Egusi", "Amala & Ewedu", "Eba & Ogbono",
+            "Fufu & Nsala Soup", "Semo & Efo Riro", "Tuwo & Miyan Kuka",
+            "Wheat & Bitterleaf Soup", "Poundo & Seafood Okra"
+        ],
+        "Protein & Grills": [
+            "Grilled Chicken", "Peppered Turkey", "Asun (Spicy Goat)",
+            "Grilled Fish (Tilapia)", "Suya", "Nkwobi", "Peppered Snail",
+            "BBQ Ribs", "Grilled Croaker Fish"
+        ],
+        "Special Meals": [
+            "Seafood Platter", "Pepper Soup (Goat)", "Pepper Soup (Catfish)",
+            "Gizdodo", "Plantain & Egg Sauce", "Yam Porridge",
+            "Beans & Plantain", "Abacha (African Salad)"
+        ],
+        "Sips & Drinks": [
+            "Chapman", "Zobo", "Tigernut Drink (Kunu Aya)", "Smoothie Bowl",
+            "Fresh Fruit Juice", "Parfait", "Milkshake", "Ginger Shot",
+            "Hibiscus Tea (Iced)", "Pina Colada Mocktail"
+        ],
+        "Pastries & Sides": [
+            "Meatpie", "Puff Puff", "Chin Chin", "Samosa",
+            "Plantain Chips", "Spring Rolls", "Doughnut", "Coleslaw"
+        ],
+        "Combo Packs": [
+            "Jollof + Chicken + Drink", "Rice & Beans + Turkey + Zobo",
+            "Amala Combo (Amala + Gbegiri + Ewedu + Assorted)",
+            "Family Pack (Feeds 4-5)", "Party Jollof Pack (10 servings)"
+        ]
+    };
+
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    // Populate categories
+    const categorySelect = document.getElementById('category');
+    Object.keys(menuData).forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat; opt.textContent = cat;
+        categorySelect.appendChild(opt);
+    });
+
+    // Category -> Item dependency
+    categorySelect.addEventListener('change', function() {
+        const itemSelect = document.getElementById('item');
+        itemSelect.innerHTML = '<option value="">Select an item</option>';
+        const items = menuData[this.value] || [];
+        items.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item; opt.textContent = item;
+            itemSelect.appendChild(opt);
+        });
+    });
+
+    // Order type -> Special details visibility
+    document.getElementById('orderType').addEventListener('change', function() {
+        document.getElementById('specialDetails').classList.toggle('hidden', this.value !== 'Special' && this.value !== 'Event');
+    });
+
+    // Delivery option -> Delivery fields visibility
+    document.getElementById('deliveryOption').addEventListener('change', function() {
+        document.getElementById('deliveryFields').classList.toggle('hidden', this.value !== 'Delivery');
+    });
+
+    function adjustQty(delta) {
+        const input = document.getElementById('quantity');
+        const val = Math.max(1, Math.min(100, parseInt(input.value || 1) + delta));
+        input.value = val;
+    }
+
+    function validateStep(step) {
+        const fields = {
+            1: ['name', 'phone', 'email'],
+            2: ['orderType', 'category', 'item', 'quantity'],
+            3: ['deliveryOption']
+        };
+        if (step === 3 && document.getElementById('deliveryOption').value === 'Delivery') {
+            fields[3].push('deliveryAddress');
+        }
+        const ids = fields[step] || [];
+        let valid = true;
+        ids.forEach(id => {
+            const el = document.getElementById(id);
+            if (!el.value.trim()) {
+                el.classList.add('border-red-400', 'bg-red-50');
+                valid = false;
+                el.addEventListener('input', () => { el.classList.remove('border-red-400', 'bg-red-50'); }, { once: true });
+                el.addEventListener('change', () => { el.classList.remove('border-red-400', 'bg-red-50'); }, { once: true });
+            }
+        });
+        if (!valid) showToast('Please fill in all required fields', 'error');
+        return valid;
+    }
+
+    function navigate(dir) {
+        if (dir === 1 && currentStep < totalSteps) {
+            if (!validateStep(currentStep)) return;
+        }
+        if (dir === 1 && currentStep === totalSteps) { submitOrder(); return; }
+        currentStep = Math.max(1, Math.min(totalSteps, currentStep + dir));
+        updateUI();
+        if (currentStep === totalSteps) buildReview();
+    }
+
+    function updateUI() {
+        document.querySelectorAll('.step').forEach((s, i) => s.classList.toggle('active', i + 1 === currentStep));
+        document.getElementById('prevBtn').classList.toggle('hidden', currentStep === 1);
+        document.getElementById('nextBtn').textContent = currentStep === totalSteps ? '✓ Place Order' : 'Continue →';
+        if (currentStep === totalSteps) {
+            document.getElementById('nextBtn').classList.add('bg-forest-600');
+        } else {
+            document.getElementById('nextBtn').classList.remove('bg-forest-600');
+        }
+        // Progress
+        const pct = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        document.getElementById('progress-line').style.width = pct + '%';
+        document.querySelectorAll('.progress-step').forEach((ps, i) => {
+            ps.classList.remove('active', 'completed');
+            if (i + 1 < currentStep) ps.classList.add('completed');
+            else if (i + 1 === currentStep) ps.classList.add('active');
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function buildReview() {
+        const data = getFormData();
+        const sections = [
+            { icon: '👤', title: 'Customer', items: [
+                ['Name', data.name], ['Phone', data.phone],
+                ['WhatsApp', data.whatsapp || data.phone], ['Email', data.email]
+            ]},
+            { icon: '🍛', title: 'Order', items: [
+                ['Type', data.orderType], ['Category', data.category],
+                ['Item', data.item], ['Qty', data.quantity]
+            ]},
+            { icon: '🚗', title: 'Delivery', items: [
+                ['Option', data.deliveryOption],
+                ...(data.deliveryOption === 'Delivery' ? [['Address', data.deliveryAddress], ['Time', data.deliveryTime || 'Not specified']] : [])
+            ]}
+        ];
+        if (data.orderType === 'Special' || data.orderType === 'Event') {
+            sections[1].items.push(['Special Details', data.specialDescription || 'N/A']);
+            if (data.specialDate) sections[1].items.push(['Date/Time', new Date(data.specialDate).toLocaleString()]);
+        }
+        if (data.notes) sections.push({ icon: '📝', title: 'Notes', items: [['', data.notes]] });
+
+        let html = '';
+        sections.forEach(s => {
+            html += `<div class="bg-gray-50 rounded-xl p-4 border border-gray-100">
+                <p class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">${s.icon} ${s.title}</p>
+                <div class="space-y-1">`;
+            s.items.forEach(([k, v]) => {
+                html += k ? `<div class="flex justify-between"><span class="text-xs text-gray-500">${k}</span><span class="text-sm font-medium text-gray-800">${v}</span></div>` :
+                    `<p class="text-sm text-gray-700">${v}</p>`;
+            });
+            html += '</div></div>';
+        });
+        document.getElementById('reviewContent').innerHTML = html;
+    }
+
+    function getFormData() {
+        return {
+            name: document.getElementById('name').value.trim(),
+            phone: document.getElementById('phone').value.trim(),
+            whatsapp: document.getElementById('whatsapp').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            orderType: document.getElementById('orderType').value,
+            category: document.getElementById('category').value,
+            item: document.getElementById('item').value,
+            quantity: document.getElementById('quantity').value,
+            specialDescription: document.getElementById('specialDescription').value.trim(),
+            specialDate: document.getElementById('specialDate').value,
+            deliveryOption: document.getElementById('deliveryOption').value,
+            deliveryAddress: document.getElementById('deliveryAddress').value.trim(),
+            deliveryTime: document.getElementById('deliveryTime').value.trim(),
+            notes: document.getElementById('notes').value.trim()
+        };
+    }
+
+    async function submitOrder() {
+        const btn = document.getElementById('nextBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="inline-flex items-center gap-2"><svg class="animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/></svg> Processing...</span>';
+        try {
+            const res = await fetch('/api/order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(getFormData())
+            });
+            const result = await res.json();
+            if (res.ok) {
+                showToast('🎉 Order placed successfully! Check your email.', 'success');
+                setTimeout(() => { document.getElementById('orderForm').reset(); currentStep = 1; updateUI(); }, 3000);
+            } else {
+                throw new Error(result.error || 'Something went wrong');
+            }
+        } catch (err) {
+            showToast('❌ ' + err.message, 'error');
+        }
+        btn.disabled = false;
+        btn.textContent = '✓ Place Order';
+    }
+
+    function showToast(msg, type) {
+        const el = document.getElementById('toast');
+        const bg = type === 'success' ? 'bg-forest-600' : type === 'error' ? 'bg-red-500' : 'bg-gray-800';
+        el.innerHTML = `<div class="toast ${bg} text-white px-5 py-3.5 rounded-xl shadow-2xl text-sm font-medium text-center">${msg}</div>`;
+        el.classList.remove('hidden');
+        setTimeout(() => el.classList.add('hidden'), 4000);
+    }
+    </script>
+</body>
+</html>
