@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background:#f8f5f0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f5f0;padding:30px 15px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+                    <!-- Header Banner -->
+                    <tr>
+                        <td style="background:linear-gradient(135deg,#ed7a0e 0%,#de6009 50%,#b8480a 100%);padding:35px 30px;text-align:center;">
+                            <img src="https://raw.githubusercontent.com/zittavictor/eatsnsips/main/assets/logo.jpeg" alt="Eats N Sips Logo" style="width:80px; height:80px; object-fit:cover; border-radius:12px; margin-bottom:10px;">
+                            <h1 style="margin:0;color:#ffffff;font-size:24px;font-weight:700;letter-spacing:-0.5px;">New Order Received!</h1>
+                            <p style="margin:8px 0 0;color:rgba(255,255,255,0.9);font-size:13px;">Eats N Sips Africa • Order Notification</p>
+                        </td>
+                    </tr>
+                    <!-- Order Badge -->
+                    <tr>
+                        <td style="padding:20px 30px 0;text-align:center;">
+                            <div style="display:inline-block;background:#fef3c7;border:1px solid #fbbf24;border-radius:50px;padding:8px 20px;">
+                                <span style="color:#92400e;font-size:12px;font-weight:600;">⏰ {{ORDER_TIME}}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Customer Section -->
+                    <tr>
+                        <td style="padding:25px 30px 0;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0;">
+                                <tr>
+                                    <td style="padding:20px;">
+                                        <h2 style="margin:0 0 12px;color:#166534;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">👤 Customer Details</h2>
+                                        <table width="100%" cellpadding="4" cellspacing="0">
+                                            <tr><td style="color:#6b7280;font-size:13px;width:100px;">Name</td><td style="color:#111827;font-size:14px;font-weight:600;">{{CUSTOMER_NAME}}</td></tr>
+                                            <tr><td style="color:#6b7280;font-size:13px;">Phone</td><td style="color:#111827;font-size:14px;font-weight:600;">{{CUSTOMER_PHONE}}</td></tr>
+                                            <tr><td style="color:#6b7280;font-size:13px;">WhatsApp</td><td style="color:#111827;font-size:14px;font-weight:600;">{{CUSTOMER_WHATSAPP}}</td></tr>
+                                            <tr><td style="color:#6b7280;font-size:13px;">Email</td><td style="color:#111827;font-size:14px;font-weight:600;">{{CUSTOMER_EMAIL}}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Order Section -->
+                    <tr>
+                        <td style="padding:20px 30px 0;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background:#fef7ee;border-radius:12px;border:1px solid #f9d7a5;">
+                                <tr>
+                                    <td style="padding:20px;">
+                                        <h2 style="margin:0 0 12px;color:#7a3110;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">🍛 Order Details</h2>
+                                        <table width="100%" cellpadding="4" cellspacing="0">
+                                            <tr><td style="color:#6b7280;font-size:13px;width:100px;">Type</td><td style="color:#111827;font-size:14px;font-weight:600;">{{ORDER_TYPE}}</td></tr>
+                                            <tr><td style="color:#6b7280;font-size:13px;">Category</td><td style="color:#111827;font-size:14px;font-weight:600;">{{ORDER_CATEGORY}}</td></tr>
+                                            <tr><td style="color:#6b7280;font-size:13px;">Item</td><td style="color:#111827;font-size:14px;font-weight:700;color:#ed7a0e;">{{ORDER_ITEM}}</td></tr>
+                                            <tr><td style="color:#6b7280;font-size:13px;">Quantity</td><td style="color:#111827;font-size:14px;font-weight:600;">{{ORDER_QUANTITY}}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Special Details (conditional) -->
+                    {{SPECIAL_SECTION}}
+                    <!-- Delivery Section -->
+                    <tr>
+                        <td style="padding:20px 30px 0;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background:#eff6ff;border-radius:12px;border:1px solid #bfdbfe;">
+                                <tr>
+                                    <td style="padding:20px;">
+                                        <h2 style="margin:0 0 12px;color:#1e40af;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:1px;">🚗 Delivery</h2>
+                                        <table width="100%" cellpadding="4" cellspacing="0">
+                                            <tr><td style="color:#6b7280;font-size:13px;width:100px;">Option</td><td style="color:#111827;font-size:14px;font-weight:600;">{{DELIVERY_OPTION}}</td></tr>
+                                            {{DELIVERY_DETAILS}}
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Notes -->
+                    {{NOTES_SECTION}}
+                    <!-- Footer -->
+                    <tr>
+                        <td style="padding:30px;text-align:center;border-top:1px solid #e5e7eb;margin-top:20px;">
+                            <p style="margin:0;color:#9ca3af;font-size:11px;">This is an automated order notification from Eats N Sips Africa</p>
+                            <p style="margin:6px 0 0;color:#9ca3af;font-size:11px;">© 2026 Eats N Sips Africa. All rights reserved.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
