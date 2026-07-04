@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;padding:0;background:#f8f5f0;font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f5f0;padding:30px 15px;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+                    <!-- Header Banner -->
+                    <tr>
+                        <td style="background:linear-gradient(135deg,#16a34a 0%,#15803d 50%,#166534 100%);padding:40px 30px;text-align:center;">
+                            <img src="https://raw.githubusercontent.com/zittavictor/eatsnsips/main/assets/hero-stew.jpeg" style="width:100%; height:200px; object-fit:cover; display:block;" alt="Delicious Food">
+                            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;">Order Confirmed!</h1>
+                            <p style="margin:10px 0 0;color:rgba(255,255,255,0.9);font-size:14px;">Thank you for ordering with Eats N Sips Africa</p>
+                        </td>
+                    </tr>
+                    <!-- Greeting -->
+                    <tr>
+                        <td style="padding:30px 30px 0;">
+                            <p style="margin:0;color:#111827;font-size:16px;font-weight:600;">Hi {{CUSTOMER_NAME}} 👋</p>
+                            <p style="margin:10px 0 0;color:#4b5563;font-size:14px;line-height:1.6;">We've received your order and it's being prepared with love! Here's a summary of what you ordered:</p>
+                        </td>
+                    </tr>
+                    <!-- Order Summary Card -->
+                    <tr>
+                        <td style="padding:20px 30px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background:linear-gradient(135deg,#fef7ee,#fff7ed);border-radius:16px;border:2px solid #f9d7a5;">
+                                <tr>
+                                    <td style="padding:24px;">
+                                        <div style="text-align:center;margin-bottom:16px;">
+                                            <span style="font-size:32px;">🍛</span>
+                                        </div>
+                                        <table width="100%" cellpadding="6" cellspacing="0">
+                                            <tr>
+                                                <td colspan="2" style="text-align:center;padding-bottom:12px;border-bottom:1px dashed #f5b96d;">
+                                                    <span style="color:#ed7a0e;font-size:20px;font-weight:800;">{{ORDER_ITEM}}</span>
+                                                    <br>
+                                                    <span style="color:#78716c;font-size:12px;">{{ORDER_CATEGORY}}</span>
+                                                </td>
+                                            </tr>
+                                            <tr><td style="color:#78716c;font-size:13px;padding-top:12px;">Order Type</td><td style="color:#292524;font-size:14px;font-weight:600;text-align:right;padding-top:12px;">{{ORDER_TYPE}}</td></tr>
+                                            <tr><td style="color:#78716c;font-size:13px;">Quantity</td><td style="color:#292524;font-size:14px;font-weight:600;text-align:right;">×{{ORDER_QUANTITY}}</td></tr>
+                                            <tr><td style="color:#78716c;font-size:13px;">Delivery</td><td style="color:#292524;font-size:14px;font-weight:600;text-align:right;">{{DELIVERY_OPTION}}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Delivery Details (if applicable) -->
+                    {{DELIVERY_SECTION}}
+                    <!-- Special Details (conditional) -->
+                    {{SPECIAL_SECTION}}
+                    <!-- Notes -->
+                    {{NOTES_SECTION}}
+                    <!-- What's Next -->
+                    <tr>
+                        <td style="padding:10px 30px 20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0" style="background:#f0fdf4;border-radius:12px;border:1px solid #bbf7d0;">
+                                <tr>
+                                    <td style="padding:20px;">
+                                        <h3 style="margin:0 0 10px;color:#166534;font-size:14px;font-weight:700;">📍 What happens next?</h3>
+                                        <table width="100%" cellpadding="4" cellspacing="0">
+                                            <tr><td style="color:#166534;font-size:20px;vertical-align:top;width:30px;">1.</td><td style="color:#374151;font-size:13px;line-height:1.5;">We'll confirm your order via WhatsApp/Phone</td></tr>
+                                            <tr><td style="color:#166534;font-size:20px;vertical-align:top;">2.</td><td style="color:#374151;font-size:13px;line-height:1.5;">Your food will be freshly prepared</td></tr>
+                                            <tr><td style="color:#166534;font-size:20px;vertical-align:top;">3.</td><td style="color:#374151;font-size:13px;line-height:1.5;">{{NEXT_STEP_DELIVERY}}</td></tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Contact -->
+                    <tr>
+                        <td style="padding:10px 30px 30px;text-align:center;">
+                            <p style="margin:0;color:#6b7280;font-size:13px;">Questions? Reach us on WhatsApp or call us!</p>
+                            <div style="margin-top:12px;">
+                                <span style="display:inline-block;background:#ed7a0e;color:white;padding:10px 24px;border-radius:50px;font-size:13px;font-weight:600;text-decoration:none;">📱 Contact Us on WhatsApp</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background:#fafafa;padding:24px 30px;text-align:center;border-top:1px solid #e5e7eb;">
+                            <img src="https://raw.githubusercontent.com/zittavictor/eatsnsips/main/assets/logo.jpeg" alt="Eats N Sips Logo" style="width:80px; height:80px; object-fit:cover; border-radius:12px; margin-bottom:10px;">
+                            <p style="margin:0;color:#ed7a0e;font-size:14px;font-weight:700;">Eats N Sips Africa</p>
+                            <p style="margin:6px 0 0;color:#9ca3af;font-size:11px;">Delicious meals made with love & delivered fresh</p>
+                            <p style="margin:12px 0 0;color:#d1d5db;font-size:10px;">© 2026 Eats N Sips Africa. All rights reserved.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
